@@ -6,20 +6,20 @@ import {trigger, transition, state, animate, style, AnimationEvent} from '@angul
   templateUrl: 'open-close.component.html',
   styleUrls: ['open-close.component.css'],
   animations: [
-    trigger('openClose', [
+    trigger('fade', [
       // ...
-      state('open', style({
+      state('in', style({
         height: '200px',
         opacity: 1,
       })),
-      state('closed', style({
+      state('out', style({
         height: '200px',
         opacity: 0,
       })),
-      transition('open => closed', [
+      transition('in => out', [
         animate('300ms')
       ]),
-      transition('closed => open', [
+      transition('out => in', [
         animate('300ms')
       ]),
     ]),
@@ -27,17 +27,17 @@ import {trigger, transition, state, animate, style, AnimationEvent} from '@angul
 })
 export class OpenCloseComponent implements OnInit, OnDestroy {
   @Input() logging = false;
-  isOpen = true;
-  tenten = true;
+  fadeState = true;
+  content = true;
 
   timeout: any;
 
   toggle() {
-    this.isOpen = !this.isOpen;
+    this.fadeState = !this.fadeState;
 
     this.timeout = setTimeout(() => {
-      this.isOpen = !this.isOpen;
-      this.tenten = !this.tenten;
+      this.fadeState = !this.fadeState;
+      this.content = !this.content;
     }, 300);
   }
 
@@ -45,6 +45,6 @@ export class OpenCloseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.timeout);
+    clearTimeout(this.timeout);
   }
 }
